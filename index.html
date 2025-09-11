@@ -1,67 +1,100 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Yakında | Coming Soon</title>
-  <meta name="description" content="Yeni oyun projemiz yakında yayında." />
-  <style>
-    :root { color-scheme: light dark; }
-    * { box-sizing: border-box; }
-    body {
-      margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-      display:grid; min-height:100vh; place-items:center;
-      background: radial-gradient(1200px 600px at 10% 10%, #222 0, #111 60%, #0b0b0b 100%);
-      color:#eee;
-    }
-    .card {
-      text-align:center; padding:48px 28px; max-width:640px; width:92%;
-      background: rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.08);
-      border-radius:16px; backdrop-filter: blur(6px);
-    }
-    h1 { font-size: clamp(28px, 4vw, 42px); margin:0 0 12px; letter-spacing:.5px; }
-    p { margin:8px 0 0; opacity:.9; }
-    .timer { display:flex; gap:16px; justify-content:center; margin:18px 0 0; font-variant-numeric: tabular-nums; flex-wrap:wrap; }
-    .unit { padding:10px 12px; border:1px solid rgba(255,255,255,.12); border-radius:10px; min-width:70px; }
-    .unit b { display:block; font-size:22px; }
-    .links { margin-top:22px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
-    .btn { padding:10px 14px; border-radius:10px; border:1px solid rgba(255,255,255,.16); text-decoration:none; color:inherit; }
-    footer { margin-top:22px; opacity:.7; font-size:14px; }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>DODGE SKILL | COMING SOON</title>
+<meta name="description" content="DODGE SKILL | COMING SOON - THEEM STUDIOS" />
+<style>
+  :root{
+    --bg:#0A0E14;         /* koyu lacivert/siyah taban */
+    --ink:#E6E8EE;        /* ana metin */
+    --ink-2:#B8C0CC;      /* ikincil metin */
+    --gold:#C4A15B;       /* LoL okra altın */
+    --gold-lite:#EDDC91;  /* açık altın detay */
+    --blue:#548CB4;       /* LoL mavi aksan */
+    --panel:rgba(10,14,20,.60); /* paneli biraz daha opak yaptık */
+    --stroke:rgba(196,161,91,.35); /* altın tonda stroke */
+  }
+  *{box-sizing:border-box}
+  html, body { height: 100%; }
+  body{
+    margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    color:var(--ink);
+    /* Pixel-art arka plan */
+    background: url('assets/website.background.png') no-repeat center fixed; /* merkez + sabit */ /* [1] */
+    background-size: cover; /* tam kaplama */ /* [2] */
+    image-rendering: crisp-edges; /* Firefox/safari */ /* [3] */
+    image-rendering: pixelated;   /* Chromium */ /* [3] */
+    min-height:100vh; display:flex; flex-direction:column;
+  }
+  .brand{
+    text-align:center; padding:26px 16px 10px;
+    font-size: clamp(20px, 2.6vw, 28px); letter-spacing:.22em; text-transform:uppercase;
+    color: var(--gold-lite);
+    text-shadow: 0 0 6px rgba(237,220,145,.25);
+  }
+  .wrap{ flex:1; display:grid; place-items:center; padding:18px; }
+  .card{
+    text-align:center; padding:48px 28px; max-width:920px; width:92%;
+    background: var(--panel);
+    border:1px solid var(--stroke); border-radius:14px;
+    box-shadow:
+      0 0 0 1px rgba(196,161,91,.15) inset,
+      0 12px 32px rgba(0,0,0,.45),
+      0 0 24px rgba(84,140,180,.12);
+    position:relative;
+  }
+  /* köşe vurguları */
+  .card:before, .card:after{
+    content:""; position:absolute; width:18px; height:18px; border:2px solid var(--gold);
+  }
+  .card:before{ top:-2px; left:-2px; border-right:none; border-bottom:none; }
+  .card:after{ bottom:-2px; right:-2px; border-left:none; border-top:none; }
+
+  h1{
+    font-size: clamp(30px, 6vw, 56px); margin:6px 0 8px;
+    letter-spacing:.06em; text-transform: uppercase; font-weight:900;
+    color: var(--gold-lite);
+    text-shadow: 0 0 8px rgba(237,220,145,.25), 0 0 22px rgba(196,161,91,.18);
+  }
+  .notice{
+    margin:0 0 14px; color:var(--ink-2);
+  }
+  .links{ margin-top:22px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+  .btn{
+    padding:12px 16px; border-radius:10px; border:1px solid rgba(84,140,180,.35);
+    text-decoration:none; color:var(--ink);
+    background: linear-gradient(180deg, rgba(84,140,180,.18), rgba(84,140,180,.06));
+    box-shadow: 0 0 0 rgba(84,140,180,0);
+    transition:.2s transform, .2s box-shadow, .2s border-color;
+  }
+  .btn:hover{
+    transform: translateY(-1px);
+    box-shadow: 0 0 14px rgba(84,140,180,.25);
+    border-color: rgba(84,140,180,.55);
+  }
+  footer{ margin-top:22px; opacity:.72; font-size:14px; color:var(--gold-lite); }
+  /* İsteğe bağlı: görselin kadrajını biraz yukarı almak için aşağıdaki gibi oynayabilirsin */
+  /* body{ background-position: 50% 42%; } */ /* [5] */
+</style>
 </head>
 <body>
-  <main class="card" role="main" aria-label="Coming Soon">
-    <h1>Yeni oyun projemiz için hazırlanıyoruz</h1>
-    <p>Site yakında yayında. Güncellemeler için takipte kalın.</p>
-    <div class="timer" aria-label="Geri sayım">
-      <div class="unit"><b id="d">00</b>Gün</div>
-      <div class="unit"><b id="h">00</b>Saat</div>
-      <div class="unit"><b id="m">00</b>Dk</div>
-      <div class="unit"><b id="s">00</b>Sn</div>
-    </div>
-    <div class="links" aria-label="Bağlantılar">
-      <a class="btn" href="mailto:hello@example.com">İletişim</a>
-      <a class="btn" href="https://github.com/REPO_OWNER/REPO_NAME">GitHub</a>
-      <a class="btn" href="https://x.com/USERNAME" rel="me noopener" target="_blank">X</a>
-    </div>
-    <footer>© 2025 Proje Ekibi</footer>
-  </main>
-  <script>
-    const target = new Date(Date.now() + 30*24*60*60*1000);
-    const pad = v => String(v).padStart(2,'0');
-    const el = id => document.getElementById(id);
-    function tick() {
-      const diff = target - new Date();
-      const d = Math.max(0, Math.floor(diff/864e5));
-      const h = Math.max(0, Math.floor(diff%864e5/36e5));
-      const m = Math.max(0, Math.floor(diff%36e5/6e4));
-      const s = Math.max(0, Math.floor(diff%6e4/1e3));
-      el('d').textContent = pad(d);
-      el('h').textContent = pad(h);
-      el('m').textContent = pad(m);
-      el('s').textContent = pad(s);
-    }
-    tick(); setInterval(tick, 1000);
-  </script>
+  <div class="brand">THEEM STUDIOS</div>
+
+  <div class="wrap">
+    <main class="card" role="main" aria-label="Coming Soon">
+      <h1>DODGE SKILL | COMING SOON</h1>
+      <p class="notice">We are preparing our game — stay tuned for updates.</p>
+
+      <div class="links" aria-label="Instagram">
+        <a class="btn" href="https://instagram.com/hamz.burak" target="_blank" rel="noopener">Burak • Instagram</a>
+        <a class="btn" href="https://instagram.com/mifudemi" target="_blank" rel="noopener">Adem • Instagram</a>
+        <a class="btn" href="https://instagram.com/muesalmy" target="_blank" rel="noopener">Enes • Instagram</a>
+      </div>
+
+      <footer>© 2025 THEEM STUDIOS</footer>
+    </main>
+  </div>
 </body>
 </html>
