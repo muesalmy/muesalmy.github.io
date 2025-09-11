@@ -22,31 +22,26 @@
     margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
     color:var(--ink);
     /* Pixel-art arka plan (dosya adı ve klasör senin belirttiğin biçimde kaldı) */
-    background: url('Assets/website.backgraund.png') no-repeat center fixed; /* merkez + sabit */ /* [ref] */ 
-    background-size: cover; /* tam kaplama */ /* [ref] */
-    image-rendering: crisp-edges; /* Firefox/Safari */ /* [ref] */
-    image-rendering: pixelated;   /* Chromium */ /* [ref] */
+    background: url('Assets/website.backgraund.png') no-repeat center fixed;
+    background-size: cover;
+    image-rendering: crisp-edges; /* Firefox/Safari */
+    image-rendering: pixelated;   /* Chromium */
     min-height:100vh; display:flex; flex-direction:column;
   }
 
-  /* Okunurluğu artırılmış üst başlık */
+  /* Glow'lu üst başlık (THEEM STUDIOS) */
   .brand{
     text-align:center; padding:26px 16px 10px;
-    font-size: clamp(32px, 6vw, 96px);    /* daha büyük başlık */ 
-    font-weight: 900;                     /* ekstra kalın */ 
+    font-size: clamp(32px, 6vw, 96px);    /* daha büyük başlık */
+    font-weight: 900;                     /* ekstra kalın */
     letter-spacing:.20em; text-transform:uppercase;
-    color: #F4E7C3;                       /* açık krem/şampanya (yüksek kontrast) */
+    color: #F4E7C3;                       /* açık krem/şampanya */
+    /* Yumuşak glow: çoklu text-shadow ile */
     text-shadow:
-      /* 4 yönlü siyah kontur */
-      1px 1px 0 rgba(0,0,0,.85),
-      -1px 1px 0 rgba(0,0,0,.85),
-      1px -1px 0 rgba(0,0,0,.85),
-      -1px -1px 0 rgba(0,0,0,.85),
-      /* hafif alt çizgi derinliği */
-      0 2px 1px rgba(0,0,0,.55),
-      /* yumuşak dış parlama */
-      0 0 12px rgba(244,231,195,.28),
-      0 0 24px rgba(244,231,195,.18);
+      0 0 6px rgba(244,231,195,.30),
+      0 0 14px rgba(244,231,195,.22),
+      0 0 28px rgba(196,161,91,.20),
+      0 2px 0 rgba(0,0,0,.50);            /* hafif alt derinlik */
   }
 
   .wrap{ flex:1; display:grid; place-items:center; padding:18px; }
