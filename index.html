@@ -7,41 +7,37 @@
 <meta name="description" content="DODGE SKILL | COMING SOON - THEEM STUDIOS" />
 <style>
   :root{
-    --bg:#0A0E14;         /* koyu lacivert/siyah taban */
-    --ink:#E6E8EE;        /* ana metin */
-    --ink-2:#B8C0CC;      /* ikincil metin */
-    --gold:#C4A15B;       /* LoL okra altın */
-    --gold-lite:#EDDC91;  /* açık altın detay */
-    --blue:#548CB4;       /* LoL mavi aksan */
-    --panel:rgba(10,14,20,.60); /* paneli biraz daha opak yaptık */
-    --stroke:rgba(196,161,91,.35); /* altın tonda stroke */
+    --bg:#0A0E14;
+    --ink:#E6E8EE;
+    --ink-2:#B8C0CC;
+    --gold:#C4A15B;
+    --gold-lite:#EDDC91;
+    --blue:#548CB4;
+    --panel:rgba(10,14,20,.60);
+    --stroke:rgba(196,161,91,.35); 
   }
   *{box-sizing:border-box}
   html, body { height: 100%; }
   body{
     margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
     color:var(--ink);
-    /* Pixel-art arka plan (dosya adı ve klasör senin belirttiğin biçimde kaldı) */
     background: url('Assets/website.backgraund.png') no-repeat center fixed;
     background-size: cover;
-    image-rendering: crisp-edges; /* Firefox/Safari */
-    image-rendering: pixelated;   /* Chromium */
+    image-rendering: crisp-edges;
+    image-rendering: pixelated;
     min-height:100vh; display:flex; flex-direction:column;
   }
-
-  /* Glow'lu üst başlık (THEEM STUDIOS) */
   .brand{
     text-align:center; padding:26px 16px 10px;
-    font-size: clamp(32px, 6vw, 96px);    /* daha büyük başlık */
-    font-weight: 900;                     /* ekstra kalın */
+    font-size: clamp(32px, 6vw, 96px); 
+    font-weight: 900;
     letter-spacing:.20em; text-transform:uppercase;
-    color: #F4E7C3;                       /* açık krem/şampanya */
-    /* Yumuşak glow: çoklu text-shadow ile */
+    color: #F4E7C3;
     text-shadow:
       0 0 6px rgba(244,231,195,.30),
       0 0 14px rgba(244,231,195,.22),
       0 0 28px rgba(196,161,91,.20),
-      0 2px 0 rgba(0,0,0,.50);            /* hafif alt derinlik */
+      0 2px 0 rgba(0,0,0,.50);
   }
 
   .wrap{ flex:1; display:grid; place-items:center; padding:18px; }
@@ -55,7 +51,6 @@
       0 0 24px rgba(84,140,180,.12);
     position:relative;
   }
-  /* köşe vurguları */
   .card:before, .card:after{
     content:""; position:absolute; width:18px; height:18px; border:2px solid var(--gold);
   }
