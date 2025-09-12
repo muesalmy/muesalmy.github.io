@@ -21,11 +21,20 @@
   body{
     margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
     color:var(--ink);
-    background: url('Assets/website.backgraund.png') no-repeat center fixed;
+    background: url('Assets/website.background.png') no-repeat center center;
     background-size: cover;
+    background-attachment: scroll;
     image-rendering: crisp-edges;
     image-rendering: pixelated;
     min-height:100vh; display:flex; flex-direction:column;
+  }
+  @media (max-width: 768px) {
+    body {
+      background-size: contain;
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-attachment: scroll;
+    }
   }
   .brand{
     text-align:center; padding:26px 16px 10px;
