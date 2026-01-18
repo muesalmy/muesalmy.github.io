@@ -16,7 +16,7 @@
             height: 100vh;
             margin: 0;
             color: #333;
-            overflow: hidden; /* Efektler taşmasın */
+            overflow: hidden;
             transition: background-color 0.3s;
         }
 
@@ -96,8 +96,6 @@
         .footer a { color: #555; text-decoration: none; }
 
         /* --- GÖRSEL EFEKTLER --- */
-        
-        /* Yanlış Cevap: Titreme Efekti */
         @keyframes shake {
             0% { transform: translate(1px, 1px) rotate(0deg); }
             10% { transform: translate(-1px, -2px) rotate(-1deg); }
@@ -113,10 +111,9 @@
         }
         .shake-effect {
             animation: shake 0.5s;
-            border-color: #ff0000 !important; /* Çerçeve kırmızı olur */
+            border-color: #ff0000 !important;
         }
 
-        /* Doğru Cevap: Büyüme Efekti */
         @keyframes pop {
             0% { transform: scale(1); }
             50% { transform: scale(1.2); }
@@ -132,7 +129,8 @@
 <body>
 
     <audio id="winSound" src="https://www.soundjay.com/misc/sounds/magic-chime-01.mp3"></audio>
-    <audio id="failSound" src="https://www.soundjay.com/misc/sounds/fail-buzzer-01.mp3"></audio>
+    
+    <audio id="failSound" src="https://www.soundjay.com/misc/sounds/cartoon-boing-1.mp3"></audio>
 
     <div class="oyun-kutusu" id="kutu">
         <h1>🚀 Matematik Ustası 🚀</h1>
@@ -161,7 +159,6 @@
         let dogruCevap = 0;
         let puan = 0;
         
-        // Sesleri seçelim
         const sesDogru = document.getElementById("winSound");
         const sesYanlis = document.getElementById("failSound");
         const oyunKutusu = document.getElementById("kutu");
@@ -172,11 +169,9 @@
         }
 
         function soruUret() {
-            // Animasyon sınıflarını temizle
             oyunKutusu.classList.remove("shake-effect");
             puanKutusu.classList.remove("pop-effect");
             
-            // İşlemler
             const islemler = ['+', '-', 'x', '÷'];
             const secilenIslem = islemler[rastgeleSayi(0, 3)];
             let sayi1, sayi2;
@@ -209,37 +204,31 @@
 
             if (kullaniciCevabi === '') return;
 
-            // Efektleri sıfırla ki tekrar çalışabilsin
             oyunKutusu.classList.remove("shake-effect");
             puanKutusu.classList.remove("pop-effect");
-            // Bir milisaniye bekleyip efekti ekleyeceğiz (trick)
             void oyunKutusu.offsetWidth; 
 
             if (parseInt(kullaniciCevabi) === dogruCevap) {
-                // --- DOĞRU CEVAP ---
+                // DOĞRU
                 puan += 10;
                 document.getElementById('skor').innerText = puan;
                 mesajKutusu.innerText = "Mükemmel! Doğru Cevap! 🎉";
                 mesajKutusu.className = "mesaj dogru";
                 
-                // Ses Çal
-                sesDogru.currentTime = 0; // Sesi başa sar
+                sesDogru.currentTime = 0;
                 sesDogru.play();
                 
-                // Görsel Efekt (Puan Zıplaması)
                 puanKutusu.classList.add("pop-effect");
 
                 setTimeout(soruUret, 1500);
             } else {
-                // --- YANLIŞ CEVAP ---
-                mesajKutusu.innerText = "Ah! Yanlış oldu. Tekrar dene 😕";
+                // YANLIŞ
+                mesajKutusu.innerText = "Hoppala! Tekrar dene bakalım 🙃"; // Mesajı da yumuşattım
                 mesajKutusu.className = "mesaj yanlis";
                 
-                // Ses Çal
                 sesYanlis.currentTime = 0;
-                sesYanlis.play();
+                sesYanlis.play(); // Artık "Boing" sesi çalacak
 
-                // Görsel Efekt (Kutu Titremesi)
                 oyunKutusu.classList.add("shake-effect");
             }
         }
