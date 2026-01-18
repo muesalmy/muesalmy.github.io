@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matematik Oyunu - Dodgeskill</title>
+    <title>Süper Matematik Oyunu 🎮</title>
     <style>
         /* --- TASARIM (CSS) --- */
         body {
@@ -16,6 +16,8 @@
             height: 100vh;
             margin: 0;
             color: #333;
+            overflow: hidden; /* Efektler taşmasın */
+            transition: background-color 0.3s;
         }
 
         .oyun-kutusu {
@@ -28,13 +30,10 @@
             max-width: 450px;
             width: 90%;
             position: relative;
+            z-index: 10;
         }
 
-        h1 {
-            color: #FF6B6B;
-            font-size: 28px;
-            margin-top: 0;
-        }
+        h1 { color: #FF6B6B; font-size: 28px; margin-top: 0; }
 
         .puan-tablosu {
             background: #FFE66D;
@@ -45,6 +44,7 @@
             font-size: 20px;
             color: #444;
             margin-bottom: 20px;
+            transition: transform 0.2s;
         }
 
         .soru-alani {
@@ -68,13 +68,9 @@
             outline: none;
             color: #333;
         }
-
-        /* Chrome, Safari, Edge için okları kaldırma */
+        
         input::-webkit-outer-spin-button,
-        input::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
+        input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 
         button {
             background-color: #FF6B6B;
@@ -90,37 +86,58 @@
             transition: all 0.1s;
         }
 
-        button:active {
-            transform: translateY(4px);
-            box-shadow: 0 1px #c92a2a;
-        }
+        button:active { transform: translateY(4px); box-shadow: 0 1px #c92a2a; }
 
-        .mesaj {
-            font-size: 20px;
-            margin-top: 20px;
-            min-height: 30px;
-            font-weight: bold;
-        }
-
+        .mesaj { font-size: 20px; margin-top: 20px; min-height: 30px; font-weight: bold; }
         .dogru { color: #2ecc71; }
         .yanlis { color: #e74c3c; }
 
-        .footer {
-            margin-top: 20px;
-            font-size: 14px;
+        .footer { margin-top: 20px; font-size: 14px; }
+        .footer a { color: #555; text-decoration: none; }
+
+        /* --- GÖRSEL EFEKTLER --- */
+        
+        /* Yanlış Cevap: Titreme Efekti */
+        @keyframes shake {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            10% { transform: translate(-1px, -2px) rotate(-1deg); }
+            20% { transform: translate(-3px, 0px) rotate(1deg); }
+            30% { transform: translate(3px, 2px) rotate(0deg); }
+            40% { transform: translate(1px, -1px) rotate(1deg); }
+            50% { transform: translate(-1px, 2px) rotate(-1deg); }
+            60% { transform: translate(-3px, 1px) rotate(0deg); }
+            70% { transform: translate(3px, 1px) rotate(-1deg); }
+            80% { transform: translate(-1px, -1px) rotate(1deg); }
+            90% { transform: translate(1px, 2px) rotate(0deg); }
+            100% { transform: translate(1px, -2px) rotate(-1deg); }
         }
-        .footer a {
-            color: #555;
-            text-decoration: none;
+        .shake-effect {
+            animation: shake 0.5s;
+            border-color: #ff0000 !important; /* Çerçeve kırmızı olur */
         }
+
+        /* Doğru Cevap: Büyüme Efekti */
+        @keyframes pop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        .pop-effect {
+            animation: pop 0.3s ease-in-out;
+            background-color: #ccffcc !important;
+        }
+
     </style>
 </head>
 <body>
 
-    <div class="oyun-kutusu">
+    <audio id="winSound" src="https://www.soundjay.com/misc/sounds/magic-chime-01.mp3"></audio>
+    <audio id="failSound" src="https://www.soundjay.com/misc/sounds/fail-buzzer-01.mp3"></audio>
+
+    <div class="oyun-kutusu" id="kutu">
         <h1>🚀 Matematik Ustası 🚀</h1>
         
-        <div class="puan-tablosu">
+        <div class="puan-tablosu" id="puanKutusu">
             Puanın: <span id="skor">0</span> 🌟
         </div>
 
@@ -140,49 +157,46 @@
     </div>
 
     <script>
-        /* --- OYUN MANTIĞI (JS) --- */
+        /* --- OYUN MANTIĞI --- */
         let dogruCevap = 0;
         let puan = 0;
+        
+        // Sesleri seçelim
+        const sesDogru = document.getElementById("winSound");
+        const sesYanlis = document.getElementById("failSound");
+        const oyunKutusu = document.getElementById("kutu");
+        const puanKutusu = document.getElementById("puanKutusu");
 
         function rastgeleSayi(min, max) {
             return Math.floor(Math.random() * (max - min + 1)) + min;
         }
 
         function soruUret() {
-            // İşlemler: Toplama (+), Çıkarma (-), Çarpma (x), Bölme (÷)
+            // Animasyon sınıflarını temizle
+            oyunKutusu.classList.remove("shake-effect");
+            puanKutusu.classList.remove("pop-effect");
+            
+            // İşlemler
             const islemler = ['+', '-', 'x', '÷'];
             const secilenIslem = islemler[rastgeleSayi(0, 3)];
-            
             let sayi1, sayi2;
 
             if (secilenIslem === '+') {
-                sayi1 = rastgeleSayi(1, 50);
-                sayi2 = rastgeleSayi(1, 50);
+                sayi1 = rastgeleSayi(1, 50); sayi2 = rastgeleSayi(1, 50);
                 dogruCevap = sayi1 + sayi2;
-            } 
-            else if (secilenIslem === '-') {
-                sayi1 = rastgeleSayi(10, 99);
-                sayi2 = rastgeleSayi(1, sayi1); // Negatif çıkmasın diye
+            } else if (secilenIslem === '-') {
+                sayi1 = rastgeleSayi(10, 99); sayi2 = rastgeleSayi(1, sayi1);
                 dogruCevap = sayi1 - sayi2;
-            } 
-            else if (secilenIslem === 'x') {
-                sayi1 = rastgeleSayi(2, 9);
-                sayi2 = rastgeleSayi(2, 9);
+            } else if (secilenIslem === 'x') {
+                sayi1 = rastgeleSayi(2, 9); sayi2 = rastgeleSayi(2, 9);
                 dogruCevap = sayi1 * sayi2;
-            } 
-            else if (secilenIslem === '÷') {
-                // Bölme işlemi tam sayı çıksın diye tersten gidiyoruz
-                let bolen = rastgeleSayi(2, 9);
-                let sonuc = rastgeleSayi(2, 9);
-                sayi1 = bolen * sonuc;
-                sayi2 = bolen;
+            } else if (secilenIslem === '÷') {
+                let bolen = rastgeleSayi(2, 9); let sonuc = rastgeleSayi(2, 9);
+                sayi1 = bolen * sonuc; sayi2 = bolen;
                 dogruCevap = sonuc;
             }
 
-            // Soruyu ekrana yaz
             document.getElementById('soru').innerText = `${sayi1} ${secilenIslem} ${sayi2} = ?`;
-            
-            // Inputu temizle ve odaklan
             let inputAlani = document.getElementById('cevap');
             inputAlani.value = '';
             inputAlani.focus();
@@ -195,28 +209,45 @@
 
             if (kullaniciCevabi === '') return;
 
+            // Efektleri sıfırla ki tekrar çalışabilsin
+            oyunKutusu.classList.remove("shake-effect");
+            puanKutusu.classList.remove("pop-effect");
+            // Bir milisaniye bekleyip efekti ekleyeceğiz (trick)
+            void oyunKutusu.offsetWidth; 
+
             if (parseInt(kullaniciCevabi) === dogruCevap) {
+                // --- DOĞRU CEVAP ---
                 puan += 10;
                 document.getElementById('skor').innerText = puan;
-                mesajKutusu.innerText = "Tebrikler! Doğru Cevap! 🎉";
+                mesajKutusu.innerText = "Mükemmel! Doğru Cevap! 🎉";
                 mesajKutusu.className = "mesaj dogru";
                 
-                // 1.5 saniye sonra yeni soru
+                // Ses Çal
+                sesDogru.currentTime = 0; // Sesi başa sar
+                sesDogru.play();
+                
+                // Görsel Efekt (Puan Zıplaması)
+                puanKutusu.classList.add("pop-effect");
+
                 setTimeout(soruUret, 1500);
             } else {
-                mesajKutusu.innerText = "Yanlış oldu, tekrar dene! 😕";
+                // --- YANLIŞ CEVAP ---
+                mesajKutusu.innerText = "Ah! Yanlış oldu. Tekrar dene 😕";
                 mesajKutusu.className = "mesaj yanlis";
+                
+                // Ses Çal
+                sesYanlis.currentTime = 0;
+                sesYanlis.play();
+
+                // Görsel Efekt (Kutu Titremesi)
+                oyunKutusu.classList.add("shake-effect");
             }
         }
 
-        // Enter tuşuna basınca kontrol etsin
         document.getElementById('cevap').addEventListener("keypress", function(event) {
-            if (event.key === "Enter") {
-                kontrolEt();
-            }
+            if (event.key === "Enter") kontrolEt();
         });
 
-        // Başlangıçta soru üret
         soruUret();
     </script>
 </body>
